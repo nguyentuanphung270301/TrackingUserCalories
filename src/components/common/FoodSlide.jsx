@@ -55,8 +55,9 @@ const FoodSlide = () => {
                             position:'fixed',
                             backgroundPosition: 'top',
                             backgroundSize: 'cover',
+                            width:'100%',
                             height: '500px',
-                            backgroundImage: `linear-gradient(to right, rgba(245,245,245,1), rgba(0,0,0,0) 600px),linear-gradient(to top, rgba(245,245,245,1), rgba(0,0,0,0) 300px) ,url(${item.category.image})`,
+                            backgroundImage: `linear-gradient(to right, rgba(245,245,245,1), rgba(0,0,0,0) 600px),linear-gradient(to top, rgba(245,245,245,1), rgba(0,0,0,0) 300px) ,url(${item.image})`,
                         }}>
                         <Box>
                             <Typography variant='h3' color='black' fontWeight='600'
@@ -105,7 +106,7 @@ const FoodSlide = () => {
                                         marginLeft: '30px'
                                     }} />
                             </Box>
-                            <Typography variant='p' color='black' display='flex' fontSize='18px' sx={{ margin: '100px 100px' }}>Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.</Typography>
+                            <Typography variant='p' color='black' display='flex' fontSize='20px' sx={{ margin: '100px 100px' }}>Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.</Typography>
                         </Box>
                         </Box>
                     </SwiperSlide>

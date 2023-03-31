@@ -131,18 +131,21 @@ const NavBar = () => {
                 alignItems: 'center',
                 verticalAlign: 'center',
                 cursor: 'pointer',
+                textDecoration: "none", color: "inherit",
                 ":hover": {
                     backgroundColor: '#2daf1b',
                     color: 'white'
                 }
             }}
+                component={Link}
+                to='/tracking'
             >
                 <AddCircleOutlineOutlinedIcon sx={{
                     margin: '0px 15px',
                     width: '32px',
                     height: '32px',
                 }} />
-                <Typography variant='h6' fontWeight='400'>Add tracking</Typography>
+                <Typography variant='h6' fontWeight='400'>Tracking</Typography>
             </Box>
 
             <Box sx={{

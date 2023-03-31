@@ -4,6 +4,11 @@ import FoodDetail from '../page/FoodDetail';
 import UserFavorites from '../page/UserFavorites';
 import FoodsSearch from '../page/FoodsSearch';
 import FoodsByCategory from '../page/FoodsByCategory';
+import UpdatePassword from '../page/UpdatePassword';
+import AdminPage from '../page/AdminPage';
+import Profile from '../page/Profile';
+import TrackingPage from '../page/TrackingPage';
+
 
 export const routesGen = {
     home: '/',
@@ -11,7 +16,11 @@ export const routesGen = {
     foodDetail: (id) => `/foods/${id}`,
     userFavorites: (username) => `/favorites/${username}`,
     foodSearch: '/search',
-    foodByCategory: (name,id) => `/category/${name}/${id}`
+    foodByCategory: (name,id) => `/category/${name}/${id}`,
+    updatepassword: '/update-password',
+    admin: '/admin',
+    profile:(username) => `/profile/${username}`,
+    tracking: '/tracking'
 }
 
 const routes = [
@@ -44,6 +53,26 @@ const routes = [
         path: '/category/:name/:id',
         element: <FoodsByCategory/>,
         state: 'foodbycategory'
+    },
+    {
+        path: '/update-password',
+        element: <UpdatePassword/>,
+        state:'updatepassword'
+    },
+    {
+        path: '/admin',
+        element: <AdminPage/>,
+        state:'admin'
+    },
+    {
+        path:'/profile/:username',
+        element:<Profile/>,
+        state:'profile'
+    },
+    {
+        path:'/tracking',
+        element:<TrackingPage/>,
+        state:'tracking'
     }
 ]
 

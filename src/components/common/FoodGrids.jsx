@@ -1,31 +1,57 @@
 import { Box, Grid, Stack, Typography } from '@mui/material'
 import React from 'react'
+import Swiper from 'swiper'
+import { SwiperSlide } from 'swiper/react'
 import FoodItems from './FoodItems'
+
 
 const FoodGrids = ({ categories }) => {
     return (
         <Box position='absolute' sx={{
-            backgroundColor:'white'
+            backgroundColor: 'white'
         }}>
             {categories && categories.map((item, index) => (
-                <Stack
+                <Box
                     width='1400px'
-                    height='300px'
+                    height='350px'
                     display='inline-block'
                     sx={{
                         marginBottom: '20px',
                         marginTop: '20px',
-                        marginLeft: '10px',
+                        marginLeft: '-80px',
 
                     }}
                     key={index}>
-                    <Grid container spacing={2} margin='0!important' >    
-                        <Typography sx={{ marginLeft: '20px' }} fontWeight='600' textTransform='uppercase' color='black' variant='h6'>{item.name}</Typography>
-                        <Grid item xs={10}>
+                    <Box sx={{
+                        display: 'flex',
+                    }}>
+                        <Grid container spacing={2} display='block'>
+                            <Grid item>
+                                <Typography fontWeight='600' textTransform='uppercase' textAlign='left' color='black' margin='20px 0px 0px 60px' variant='h6'>{item.name}</Typography>
+                            </Grid>
+                            <Grid item xs display='flex' overflow='auto' marginLeft='60px'
+                                sx={{
+                                    '&::-webkit-scrollbar': {
+                                        width: '8px',
+                                        height: '10px',
+                                    },
+                                    '&::-webkit-scrollbar-track': {
+                                        background: '#f1f1f1',
+                                    },
+                                    '&::-webkit-scrollbar-thumb': {
+                                        background: '#ccc',
+                                        borderRadius: '10px',
+                                    },
+                                    '&::-webkit-scrollbar-thumb:hover': {
+                                        background: '#555',
+                                    },
+                                }}
+                            >
+                                <FoodItems foods={item.foods} />
+                            </Grid>
                         </Grid>
-                        <FoodItems foods={item.foods} />
-                    </Grid>
-                </Stack>
+                    </Box>
+                </Box>
             ))}
         </Box>
     )

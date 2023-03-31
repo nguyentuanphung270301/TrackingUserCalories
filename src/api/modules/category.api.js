@@ -5,7 +5,7 @@ const categoryEndpoints = {
     listCategories: 'api/v1/categories/all',
     listCategoriesPaging : 'api/v1/categories/all/paging',
     createCategory: 'api/v1/categories/create',
-    deleteCategory: ({id}) => `api/v1/categories/delete/${id}`,
+    deleteCategory: (id) => `api/v1/categories/delete/${id}`,
     updateCategory : 'api/v1/categories/update'
 }
 
@@ -31,24 +31,31 @@ const categoryApi = {
             return { response }
         } catch (err) { return { err } }
     },
-    createCategory: async () => {
+    createCategory: async (image, category) => {
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('category', JSON.stringify(category));
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.post(categoryEndpoints.createCategory)
+            const response = await axiosPrivateClient.post(categoryEndpoints.createCategory, formData)
             return { response }
         } catch (err) { return { err } }
     },
-    deleteCategory: async ({id}) => {
+    deleteCategory: async (id) => {
+
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.delete(categoryEndpoints.deleteCategory({id}))
+            const response = await axiosPrivateClient.delete(categoryEndpoints.deleteCategory(id))
             return { response }
         } catch (err) { return { err } }
     },
-    updateCategory: async () => {
+    updateCategory: async (image, category) => {
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('category', JSON.stringify(category));
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.put(categoryEndpoints.updateCategory)
+            const response = await axiosPrivateClient.put(categoryEndpoints.updateCategory, formData)
             return { response }
         } catch (err) { return { err } }
     },

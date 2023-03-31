@@ -8,20 +8,16 @@ import { routesGen } from "../../routes/routes";
 const CategoryItem = ({ category, request }) => {
 
     return (
-        <Box sx={{
-            display: 'flex',
-            width: '1400px',
-            cursor: 'default'
-        }}>
+        <>
             {category && category.map((item, index) => (
-                <Grid item key={index} xs={2} width='50%'
+                <Grid item key={index} xs={2} sm={4} md={2} width='235px'
                     sx={{
-                        margin: '10px 10px',
+                        margin: '10px 0px 0px 50px',
                         marginTop: '10!important',
                         paddingLeft: '0!important',
                         paddingTop: '0!important',
                     }}>
-                    <Link to={routesGen.foodByCategory(item.name,item.id)}>
+                    <Link to={routesGen.foodByCategory(item.name, item.id)}>
                         <Box
                             sx={{
                                 bgcolor: '#f5f5f5',
@@ -46,7 +42,9 @@ const CategoryItem = ({ category, request }) => {
                                 top: 0,
                                 left: 0,
                                 padding: 0,
-                                borderRadius: '10px'
+                                borderRadius: '10px',
+                                overflow: 'hidden',
+                                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
                             }} />
                             <Typography
                                 variant='h7'
@@ -65,7 +63,7 @@ const CategoryItem = ({ category, request }) => {
                     </Link>
                 </Grid>
             ))}
-        </Box>
+        </>
     )
 }
 

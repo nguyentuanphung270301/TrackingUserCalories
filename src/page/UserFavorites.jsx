@@ -1,10 +1,9 @@
 import { Grid, Typography } from '@mui/material'
-import { Box, Stack } from '@mui/system'
+import { Box } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import accountsApi from '../api/modules/accounts.api'
 import favoriteFoodApi from '../api/modules/favoritesfood.api'
-import FoodItems from '../components/common/FoodItems'
 import { routesGen } from '../routes/routes'
 import { LoadingButton } from '@mui/lab'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
@@ -43,7 +42,7 @@ const UserFavorites = () => {
     if (userId !== null) {
       getListFavorites(userId);
     }
-  }, [userId,request]);
+  }, [userId, request]);
 
   const getListFavorites = async (userId) => {
     const { response, err } = await favoriteFoodApi.getListFavoriteFood({ userId })
@@ -68,15 +67,13 @@ const UserFavorites = () => {
     <Box position='absolute' width='1476px' height='100%'>
       <Typography variant='h5' textAlign='left' fontWeight='600' sx={{
         margin: '40px',
-        color:'black',
+        color: 'black',
       }}>YOUR FAVORITES ({listFavorites && `${listFavorites.length}`})</Typography>
 
-      <Box sx={{
-        display: 'flex',
-      }}>
+      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} flexDirection='row' width='1380px'>
         {listFavorites && listFavorites.map((item, index) => (
           <Box sx={{
-            marginLeft: '20px'
+            marginLeft: '45px'
           }} key={index} >
 
             <Grid item xs={10}>
@@ -105,7 +102,7 @@ const UserFavorites = () => {
                     }
                   }}
                 >
-                  <img src={require('../images/FiletMignon.jpeg')} alt='Ảnh' style={{
+                  <img src={item.food.image} alt='Ảnh' style={{
                     position: 'absolute',
                     width: '100%',
                     height: '100%',
@@ -138,10 +135,10 @@ const UserFavorites = () => {
               loadingPosition='start'
               variant='contained'
               sx={{
-                width:'230px',
+                width: '230px',
                 color: 'white',
                 backgroundColor: 'red',
-                ":hover": {
+                ":hover": { 
                   opacity: '0.6',
                   color: 'white',
                   backgroundColor: 'red',
@@ -151,7 +148,7 @@ const UserFavorites = () => {
             >REMOVE</LoadingButton>
           </Box>
         ))}
-      </Box>
+      </Grid>
     </Box>
   )
 }

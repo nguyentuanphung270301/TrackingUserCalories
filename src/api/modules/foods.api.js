@@ -1,21 +1,21 @@
 import axiosPrivateClient from '../axiosClient/axiosPrivateClient'
 
 const foodEndpoints = {
-    getFood: ({ id }) => `api/v1/foods/${id}`,
+    getFood: (id ) => `api/v1/foods/${id}`,
     listFoods: 'api/v1/foods/all',
     listFoodsWithCategory: ({cateId}) => `api/v1/foods/all/category/${cateId}`,
     listFoodsWithCategoryPaging:({cateId}) => `api/v1/foods/all/category/${cateId}/paging`,
     listFoodsPaging : 'api/v1/foods/all/paging',
     createFood : 'api/v1/foods/create',
-    deleteFood :({id}) => `api/v1/foods/delete/${id}`,
+    deleteFood :(id) => `api/v1/foods/delete/${id}`,
     updateFood: 'api/v1/foods/update' 
 }
 
 const foodApi = {
-    getFood: async ({id}) => {
+    getFood: async (id) => {
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.get(foodEndpoints.getFood({ id }))
+            const response = await axiosPrivateClient.get(foodEndpoints.getFood(id))
             return { response }
         } catch (err) { return { err } }
     },
@@ -47,24 +47,30 @@ const foodApi = {
             return { response }
         } catch (err) { return { err } }
     },
-    createFood: async () => {
+    createFood: async (image, food) => {
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('food', JSON.stringify(food));
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.post(foodEndpoints.createFood)
+            const response = await axiosPrivateClient.post(foodEndpoints.createFood, formData)
             return { response }
         } catch (err) { return { err } }
     },
-    deleteFood: async ({id}) => {
+    deleteFood: async (id) => {
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.delete(foodEndpoints.deleteFood({id}))
+            const response = await axiosPrivateClient.delete(foodEndpoints.deleteFood(id))
             return { response }
         } catch (err) { return { err } }
     },
-    updateFood: async () => {
+    updateFood: async (image, food) => {
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('food', JSON.stringify(food));
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.put(foodEndpoints.updateFood)
+            const response = await axiosPrivateClient.put(foodEndpoints.updateFood, formData)
             return { response }
         } catch (err) { return { err } }
     },

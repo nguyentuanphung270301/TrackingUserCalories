@@ -5,17 +5,21 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { setUser } from '../../redux/features/userSlice'
-import { ListItemButton, ListItemText, Menu, Typography } from "@mui/material";
+import { Avatar, ListItemButton, ListItemText, Menu, Typography } from "@mui/material";
 import accountsApi from "../../api/modules/accounts.api";
 import { routesGen } from "../../routes/routes";
+import PasswordOutlinedIcon from '@mui/icons-material/PasswordOutlined';
 
 
 const UserMenu = () => {
     const user = useSelector((state) => state.user.user)
 
     const username = localStorage.getItem('username')
+
+    const navigate = useNavigate()
+
 
     const dispatch = useDispatch()
 
@@ -37,19 +41,25 @@ const UserMenu = () => {
             }
         }
         getAccount()
-    }, [username])
+    }, [username, navigate])
+
+
+    const logOut = () => {
+        dispatch(setUser(null))
+        navigate('/')
+    }
     return (
         <>
             {user && (
                 <>
-                    <img src={require('../../images/sontung.jpg')} alt="Ảnh" style={{
-                        width: '48px',
-                        height: '48px',
-                        borderRadius: '50%'
-                    }} />
+                <Avatar alt="Ảnh" src={ (account && account.user.image) ||(require('../../images/avatar.jpg'))} sx={{
+                    width:'48px',
+                    height:'48px',
+                    marginLeft:'5px'
+                }}/>
                     <Typography
                         variant='h6' fontWeight='400' fontSize='14px'
-                        sx={{ cursor: 'pointer', userSelect: 'none', marginLeft: '20px' }}
+                        sx={{ cursor: 'pointer', userSelect: 'none', marginLeft: '10px' }}
                         onClick={toggleMenu}
                     >
                         {account && `${account.user.lastName} ${account.user.firstName}`}
@@ -64,23 +74,29 @@ const UserMenu = () => {
                             top: -19
                         }}
                     >
-                        <ListItemButton>
-                            <ListItemButton><PersonOutlineOutlinedIcon /></ListItemButton>
-                            <ListItemText disableTypography primary={
-                                <Typography variant="h7">Profile</Typography>
-                            }
-                            ></ListItemText>
-                        </ListItemButton>
+                        <Link to={routesGen.profile(username)} style={{ textDecoration: 'none', color: 'inherit' }} >
+                            <ListItemButton>
+                                <ListItemButton><PersonOutlineOutlinedIcon /></ListItemButton>
+                                <ListItemText disableTypography primary={
+                                    <Typography variant="h7">Profile</Typography>
+                                }
+                                ></ListItemText>
+                            </ListItemButton>
+                        </Link>
 
-                        {account && account.role === 'ROLE_ADMIN' && <ListItemButton>
-                            <ListItemButton><AdminPanelSettingsOutlinedIcon /></ListItemButton>
-                            <ListItemText disableTypography primary={
-                                <Typography variant="h7">Admin</Typography>
-                            }
-                            ></ListItemText>
-                        </ListItemButton>}
+                        {account && account.role === 'ROLE_ADMIN' &&
+                            <Link to={routesGen.admin} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton>
+                                    <ListItemButton><AdminPanelSettingsOutlinedIcon /></ListItemButton>
+                                    <ListItemText disableTypography primary={
+                                        <Typography variant="h7">Admin</Typography>
+                                    }
+                                    ></ListItemText>
+                                </ListItemButton>
+                            </Link>
+                        }
 
-                        <Link to={routesGen.userFavorites(username)} style={{textDecoration:'none',color:'inherit'}}>
+                        <Link to={routesGen.userFavorites(username)} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <ListItemButton>
                                 <ListItemButton><FavoriteBorderOutlinedIcon /></ListItemButton>
                                 <ListItemText disableTypography primary={
@@ -90,9 +106,19 @@ const UserMenu = () => {
                             </ListItemButton>
                         </Link>
 
+                        <Link to={routesGen.updatepassword} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemButton>
+                                <ListItemButton><PasswordOutlinedIcon /></ListItemButton>
+                                <ListItemText disableTypography primary={
+                                    <Typography variant="h7">Update password</Typography>
+                                }
+                                ></ListItemText>
+                            </ListItemButton>
+                        </Link>
+
                         <ListItemButton
                             sx={{ borderRadius: '10px' }}
-                            onClick={() => dispatch(setUser(null))}
+                            onClick={logOut}
                         >
                             <ListItemButton><LogoutOutlinedIcon /></ListItemButton>
                             <ListItemText disableTypography primary={

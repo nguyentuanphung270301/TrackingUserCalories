@@ -14,7 +14,7 @@ const FoodItems = ({ foods, request }) => {
 
     const username = localStorage.getItem('username')
 
-    const [isChecked,setIsChecked] = useState([])
+    const [isChecked, setIsChecked] = useState([])
 
     const [userId, setUserId] = useState(null)
 
@@ -43,23 +43,19 @@ const FoodItems = ({ foods, request }) => {
         const { response, err } = await favoriteFoodApi.getListFavoriteFood({ userId })
         if (response) {
             await setListFavorites(response)
-            await setIsChecked(response.map((checked)=> checked.food.id))
+            await setIsChecked(response.map((checked) => checked.food.id))
         }
         if (err) console.log(err)
     }
 
-   
+
 
     return (
-        <Box sx={{
-            display: 'flex',
-            width: '1400px',
-            cursor: 'default'
-        }}>
+        <>
             {foods && foods.map((item, index) => (
-                <Grid item key={index} xs={2} width='50%'
+                <Grid item key={index} xs={2} sm={4} md={2} width='235px'
                     sx={{
-                        margin: '10px 10px',
+                        margin: '10px 40px 0px 0px',
                         marginTop: '10!important',
                         paddingLeft: '0!important',
                         paddingTop: '0!important',
@@ -77,11 +73,10 @@ const FoodItems = ({ foods, request }) => {
                                 ":hover": {
                                     opacity: '0.8',
                                     transform: 'translateY(-5px)',
-                                    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                                 }
                             }}
                         >
-                            <img src={require('../../images/FiletMignon.jpeg')} alt='Ảnh' style={{
+                            <img src={item.image} alt='Ảnh' style={{
                                 position: 'absolute',
                                 width: '100%',
                                 height: '100%',
@@ -89,11 +84,13 @@ const FoodItems = ({ foods, request }) => {
                                 top: 0,
                                 left: 0,
                                 padding: 0,
-                                borderRadius: '10px'
+                                borderRadius: '10px',
+                                overflow: 'hidden',
+                                boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
                             }} />
-                           {isChecked.includes(item.id) 
-                            &&
-                           (<FavoriteIcon sx={{position:'absolute', width:'32px', height:'32px', marginLeft:'65px', color:'red'}}/>)}
+                            {isChecked.includes(item.id)
+                                &&
+                                (<FavoriteIcon sx={{ position: 'absolute', width: '32px', height: '32px', marginLeft: '65px', color: 'red' }} />)}
                             <Typography
                                 variant='h7'
                                 color='white'
@@ -111,7 +108,7 @@ const FoodItems = ({ foods, request }) => {
                     </Link>
                 </Grid>
             ))}
-        </Box>
+        </>
     )
 }
 

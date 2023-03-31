@@ -1,7 +1,7 @@
 import axios from 'axios'
 import queryString from 'query-string'
 
-const baseURL = "http://caloriestrackingapp-env.eba-np7prubr.us-east-1.elasticbeanstalk.com/"
+const baseURL = "http://caloriestrackingapp-env.eba-vkyxg2cz.us-east-1.elasticbeanstalk.com/"
 
 const axiosPublicClient = axios.create({
     baseURL,
@@ -18,7 +18,8 @@ axiosPublicClient.interceptors.request.use(async config => {
             'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE',
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-        }
+        },
+    
     };
 });
 

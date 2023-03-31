@@ -49,7 +49,9 @@ const RegisterForm = ({ switchAuthState }) => {
                 toast.success("Register in success")
             }
 
-            if (err) setErrorMessage(err.message)
+            if (err) {
+                toast.error(err.message)
+            }
 
         }
     })
@@ -125,7 +127,7 @@ const RegisterForm = ({ switchAuthState }) => {
                 sx={{
                     marginTop: 4,
                     backgroundColor: '#2daf1b',
-                    ":hover":{
+                    ":hover": {
                         backgroundColor: '#2daf1b',
                         opacity: 0.7
                     }

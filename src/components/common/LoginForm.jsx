@@ -43,7 +43,7 @@ const LoginForm = ({ switchAuthState }) => {
           dispatch(setAuthModalOpen(false));
           toast.success("Login successfully");
         }
-        if (err) {
+        if(err) {
           toast.error('Wrong username or password')
         }
       }

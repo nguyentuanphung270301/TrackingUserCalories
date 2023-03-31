@@ -29,6 +29,7 @@ const FoodDetail = () => {
 
   const username = localStorage.getItem('username')
 
+
   const [userId, setUserId] = useState(null)
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const FoodDetail = () => {
 
   useEffect(() => {
     const getFood = async () => {
-      const { response, err } = await foodApi.getFood(id)
+      const { response, err } = await foodApi.getFood(foodId)
       if (response) {
         console.log(response)
         setFood(response)
@@ -131,11 +132,11 @@ const FoodDetail = () => {
         backgroundColor: '#fbfbfb',
         display: "flex",
         flexDirection: { md: "row", xs: "column" },
-        backgroundImage: food && `linear-gradient(to top, rgba(245,245,245,1), rgba(0,0,0,0)),linear-gradient(to right, rgba(245,245,245,1), rgba(0,0,0,0)), url(${food.category.image})`,
+        backgroundImage: food && `linear-gradient(to top, rgba(245,245,245,1), rgba(0,0,0,0)),linear-gradient(to right, rgba(245,245,245,1), rgba(0,0,0,0)), url(${food?.category.image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}>
-        <img src={require('../images/FiletMignon.jpeg')} alt='Ảnh' style={{
+        <img src={food && food.image} alt='Ảnh' style={{
           width: '425px', height: '625px', borderRadius: '20px', margin: '40px 40px', boxShadow: '2px 2px 10px rgba(0, 0, 0, 0.2)', objectFit: 'cover'
         }} />
         <Box sx={{
@@ -198,7 +199,7 @@ const FoodDetail = () => {
               }}
             />
           </Box>
-          <Typography variant='p' textAlign='left' color='black' sx={{ margin: '40px' }}>Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.</Typography>
+          <Typography variant='p' textAlign='left' color='black' sx={{ margin: '40px' }}>{food && food.description}</Typography>
           <Button sx={{
             width: '200px',
             height: '50px',
@@ -224,12 +225,32 @@ const FoodDetail = () => {
         alignItems: 'flex-start'
       }}>
         <Typography color='black' position='relative' variant='h4' fontWeight='500' sx={{ float: 'left', marginLeft: '40px', marginBottom: '10px', marginTop: '20px' }}>Other Food Of Same Category</Typography>
-        <Box sx={{ marginLeft: '20px' }}>
-
-          <Grid container spacing={2} margin='0!important' >
-            <Grid item xs={10}>
+        <Box sx={{
+          flexGrow: 1,
+          margin: '40px 0px 20px 0px',
+          width: '1450px',
+        }}>
+          <Grid container spacing={2} display='block'>
+            <Grid item xs display='flex' overflow='auto' marginLeft='50px'
+              sx={{
+                '&::-webkit-scrollbar': {
+                  width: '8px',
+                  height: '10px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: '#f1f1f1',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#ccc',
+                  borderRadius: '10px',
+                },
+                '&::-webkit-scrollbar-thumb:hover': {
+                  background: '#555',
+                },
+              }}
+            >
+              <FoodItems foods={listFoods} request={isFoodFavorited} />
             </Grid>
-            <FoodItems foods={listFoods} request={isFoodFavorited}/>
           </Grid>
         </Box>
       </Stack>

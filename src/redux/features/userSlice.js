@@ -5,6 +5,7 @@ export const userSlice = createSlice({
     initialState: {
         user: null,
         username: null,
+        foodId: null
     },
     reducers: {
         setUser: (state, action) => {
@@ -16,9 +17,12 @@ export const userSlice = createSlice({
             }
             state.user = action.payload;
         },
-        setUsername(state, action){
+        setUsername(state, action) {
             state.username = action.payload
-            localStorage.setItem('username',state.username)
+            localStorage.setItem('username', state.username)
+        },
+        setFoodId(state, action) {
+            state.foodId = action.payload
         }
     }
 })
@@ -26,7 +30,8 @@ export const userSlice = createSlice({
 export const {
     setUser,
     setUsername,
-    clearUsername
+    clearUsername,
+    setFoodId
 } = userSlice.actions
 
 export default userSlice.reducer

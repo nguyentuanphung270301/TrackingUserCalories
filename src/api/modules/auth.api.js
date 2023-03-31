@@ -20,7 +20,7 @@ const authApi = {
             const response = await axiosClient.post(authEndpoints.login, { username, password })
             return { response }
         }
-        catch (err) { return { err } }
+        catch (err) { return {err } }
 
     },
     register: async ({ email, firstName, lastName, password, role, username }) => {

@@ -3,7 +3,7 @@ import axiosPrivateClient from "../axiosClient/axiosPrivateClient";
 const foodTrackingEndpoints = {
     addFoodTracking: ({userId, foodId, consumedGram}) => `api/v1/tracking/add/${userId}/${foodId}/${consumedGram}`,
     reportCalories: 'api/v1/tracking/report',
-    getFoodTracking: ({userId}) => `api/v1/tracking/user/${userId}`
+    getFoodTracking: (userId) => `api/v1/tracking/user/${userId}`
 }
 
 const foodTrackingApi = {
@@ -21,10 +21,10 @@ const foodTrackingApi = {
             return { response }
         } catch (err) { return { err } }
     },
-    getFoodTracking: async ({userId}) => {
+    getFoodTracking: async (userId) => {
         try {
             console.log('send request')
-            const response = await axiosPrivateClient.get(foodTrackingEndpoints.getFoodTracking({ userId}))
+            const response = await axiosPrivateClient.get(foodTrackingEndpoints.getFoodTracking(userId))
             return { response }
         } catch (err) { return { err } }
     },
