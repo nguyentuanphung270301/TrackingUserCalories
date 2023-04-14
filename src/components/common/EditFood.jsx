@@ -37,7 +37,7 @@ const EditFood = ({id, onClose }) => {
 
     useEffect(() => {
         const getCategory = async () => {
-            const { response, err } = await foodApi.getFood({ id })
+            const { response, err } = await foodApi.getFood( id )
             if (response) {
                 setName(response.name)
                 setSelectedValue(response.category)

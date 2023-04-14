@@ -1,7 +1,7 @@
 import axios from 'axios'
 import queryString from 'query-string';
 
-const baseURL = "http://caloriestrackingapp-env.eba-vkyxg2cz.us-east-1.elasticbeanstalk.com/"
+const baseURL = "https://caloriestrackingapprestapis-production.up.railway.app/"
 
 const axiosPrivateClient = axios.create({
   baseURL,
