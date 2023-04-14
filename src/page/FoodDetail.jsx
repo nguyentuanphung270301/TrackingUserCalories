@@ -88,7 +88,7 @@ const FoodDetail = () => {
 
 
   const addFavorite = async () => {
-    const { response, err } = await favoriteFoodApi.addFavoriteFood({ userId, foodId })
+    const { response, err } = await favoriteFoodApi.addFavoriteFood(userId, foodId)
     if (response) {
       setIsFoodFavorited(!isFoodFavorited);
       setRequest(!request)
