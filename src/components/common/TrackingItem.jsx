@@ -1,9 +1,14 @@
-import { Box, Button, Grid, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import foodTrackingApi from '../../api/modules/foodtracking.api';
+import { toast } from 'react-toastify';
 
 
-const TrackingItem = ({ trackingList }) => {
+
+const TrackingItem = ({ trackingList, deleteTracking }) => {
+
+
     return (
         <>
             {trackingList && trackingList.map((item, index) => (
@@ -39,18 +44,19 @@ const TrackingItem = ({ trackingList }) => {
                         <Typography marginBottom='10px'>Consumed: {item.consumedGram}g</Typography>
                         <Typography>{item.consumedDatetime}</Typography>
                     </Box>
-                    <Button
-                        variant='contained'
-                        startIcon=<DeleteOutlineIcon />
-                        sx={{
-                            height: '100%',
-                            backgroundColor: 'red',
-                            ":hover": {
+                        <Button
+                            variant='contained'
+                            startIcon=<DeleteOutlineIcon />
+                            sx={{
+                                height: '100%',
                                 backgroundColor: 'red',
-                                opacity: 0.8
-                            }
-                        }}
-                    >Remove</Button>
+                                ":hover": {
+                                    backgroundColor: 'red',
+                                    opacity: 0.8
+                                }
+                            }}
+                            onClick={() => deleteTracking(item.id)}
+                        >Remove</Button>
                 </Grid>
             ))}
         </>

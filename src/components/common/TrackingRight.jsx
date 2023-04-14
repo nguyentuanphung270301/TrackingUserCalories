@@ -17,20 +17,26 @@ const TrackingRight = () => {
   const [isRequest, setIsRequest] = useState(false)
   const [trackingList, setTrackingList] = useState(null)
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  const todayStr = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
 
-  console.log(isRequest)
+
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hour = String(now.getHours()).padStart(2, '0');
+  const minute = String(now.getMinutes()).padStart(2, '0');
+  const second = String(now.getSeconds()).padStart(2, '0');
+  const dateTime = `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+  console.log(dateTime);
+
+  const reportType = 'day';
 
   useEffect(() => {
     const getTrackingList = async () => {
-      const { response, err } = await foodTrackingApi.getFoodTracking(userId)
+      const { response, err } = await foodTrackingApi.reportCalories(dateTime, reportType, userId)
       if (response) {
         console.log(response)
-       setTrackingList(response.filter(item => item.consumedDatetime.split(' ')[0] === todayStr))
+        setTrackingList(response.consumedHistory)
       }
       if (err) console.log(err)
     }
@@ -69,13 +75,25 @@ const TrackingRight = () => {
 
   const onSave = async () => {
     const { response, err } = await foodTrackingApi.addFoodTracking({ userId, foodId, consumedGram })
-    setIsRequest(!isRequest)
     if (response) {
+      setIsRequest(!isRequest)
       console.log(response)
       toast.success("Add tracking successfully")
     }
     if (err) toast.error(err)
   }
+
+  
+  const deleteTracking = async (trackingId) => {
+    const { response, err } = await foodTrackingApi.deleteTracking(trackingId)
+    if (response) {
+      setIsRequest(!isRequest)
+      console.log(response)
+      toast.success("Remove tracking successfully!")
+    }
+    if (err) toast.error(err)
+  }
+
 
   return (
     <>
@@ -134,6 +152,7 @@ const TrackingRight = () => {
             endAdornment: <InputAdornment position="end">gram</InputAdornment>,
           }}
           sx={{
+            height: '75px',
             width: '100%',
             marginBottom: '10px'
           }}
@@ -161,7 +180,7 @@ const TrackingRight = () => {
       <Box
         border='2px solid black'
         borderRadius='5px'
-        height='310px'
+        height='300px'
         margin='0px 5px 5px 0px'
         position='relative'
       >
@@ -187,7 +206,7 @@ const TrackingRight = () => {
               margin: '5px'
             }}
           >
-            {trackingList && <TrackingItem trackingList={trackingList} />}
+            {trackingList && <TrackingItem trackingList={trackingList} deleteTracking={deleteTracking}/>}
           </Grid>
         </Grid>
       </Box>
