@@ -9,6 +9,7 @@ import foodTrackingApi from '../../api/modules/foodtracking.api';
 
 import {
     Chart as ChartJS,
+    DoughnutController,
     CategoryScale,
     ArcElement,
     LinearScale,
@@ -21,6 +22,7 @@ import {
 import { Chart } from 'react-chartjs-2';
 ChartJS.register(
     ArcElement,
+    DoughnutController,
     CategoryScale,
     LinearScale,
     PointElement,
