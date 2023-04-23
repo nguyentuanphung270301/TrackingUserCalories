@@ -45,7 +45,7 @@ const FoodSlide = () => {
                 modules={[Autoplay]}
                 style={{ width: "100%", height: "500px" }}
                 autoplay={{
-                    delay: 2000,
+                    delay: 4000,
                     disableOnInteraction: false,
                 }}
             >

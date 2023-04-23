@@ -51,6 +51,7 @@ const TrackingRight = () => {
         setIsRequest(!isRequest)
       } catch (error) {
         console.log('Failed to fetch account: ', error)
+        toast.error("Please login")
       }
     }
     getUser()

@@ -267,7 +267,7 @@ export default function AdminAccount() {
                     </Button>
                 </Box>
                 <Box>
-                    <TableContainer component={Paper} sx={{ height: '570px', }}>
+                    <TableContainer component={Paper} sx={{ height: '520px', }}>
                         <Table sx={{ minWidth: 650 }} aria-labelledby="tableTitle"
                         >
                             <EnhancedTableHead

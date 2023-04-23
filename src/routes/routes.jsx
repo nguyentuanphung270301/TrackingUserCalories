@@ -8,6 +8,7 @@ import UpdatePassword from '../page/UpdatePassword';
 import AdminPage from '../page/AdminPage';
 import Profile from '../page/Profile';
 import TrackingPage from '../page/TrackingPage';
+import ChartDetail from '../components/common/ChartDetail';
 
 
 export const routesGen = {
@@ -20,7 +21,8 @@ export const routesGen = {
     updatepassword: '/update-password',
     admin: '/admin',
     profile:(username) => `/profile/${username}`,
-    tracking: '/tracking'
+    tracking: '/tracking',
+    detailchart: '/detail-chart'
 }
 
 const routes = [
@@ -73,6 +75,11 @@ const routes = [
         path:'/tracking',
         element:<TrackingPage/>,
         state:'tracking'
+    },
+    {
+        path:'/detail-chart',
+        element:<ChartDetail/>,
+        state:'detailchart'
     }
 ]
 

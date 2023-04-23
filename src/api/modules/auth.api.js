@@ -7,10 +7,10 @@ const authEndpoints = {
 }
 
 const authApi = {
-    forgot: async (usernameOrPassword) => {
+    forgot: async (usernameOrEmail) => {
         try {
-            console.log(usernameOrPassword)
-            const response = await axiosClient.post(authEndpoints.forgot, { usernameOrPassword })
+            console.log(usernameOrEmail)
+            const response = await axiosClient.post(authEndpoints.forgot, { usernameOrEmail })
             return { response }
         }
         catch (err) { return { err } }

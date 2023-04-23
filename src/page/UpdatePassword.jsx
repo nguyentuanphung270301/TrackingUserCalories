@@ -29,15 +29,15 @@ const UpdatePassword = () => {
             confirmNewPassword: '',
         },
         validationSchema: Yup.object({
-            newPassword: Yup.string().min(8, 'new password minium 8 characters').required('new password is required').test(
+            newPassword: Yup.string().min(5, 'new password minium 5 characters').required('new password is required').test(
                 'New passwords-match',
                 'New passwords must not match password',
                 function (value) {
                     return value !== this.parent.password;
                 }
             ),
-            password: Yup.string().min(8, 'password minium 8 characters'),
-            confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword', 'confirm new password not match')]).min(8, 'confirm new password minium 8 characters').required('confirm new password is required')
+            password: Yup.string().min(5, 'password minium 5 characters'),
+            confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword', 'confirm new password not match')]).min(5, 'confirm new password minium 5 characters').required('confirm new password is required')
         }),
         onSubmit: (values) => {
             onUpdate({

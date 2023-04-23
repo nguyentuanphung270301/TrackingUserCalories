@@ -6,7 +6,7 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { setUser } from '../../redux/features/userSlice'
+import userSlice, { setUser, setUsername } from '../../redux/features/userSlice'
 import { Avatar, ListItemButton, ListItemText, Menu, Typography } from "@mui/material";
 import accountsApi from "../../api/modules/accounts.api";
 import { routesGen } from "../../routes/routes";
@@ -20,6 +20,7 @@ const UserMenu = () => {
 
     const navigate = useNavigate()
 
+     useSelector((state) => state.user.username)
 
     const dispatch = useDispatch()
 
@@ -47,6 +48,7 @@ const UserMenu = () => {
     const logOut = () => {
         dispatch(setUser(null))
         navigate('/')
+        window.location.reload()
     }
     return (
         <>

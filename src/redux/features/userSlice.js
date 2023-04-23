@@ -12,6 +12,7 @@ export const userSlice = createSlice({
             if (action.payload === null) {
                 localStorage.removeItem('login');
                 localStorage.removeItem('username');
+                state.username = action.payload
             } else {
                 if (action.payload.token) localStorage.setItem('login', action.payload.token);
             }
@@ -30,7 +31,6 @@ export const userSlice = createSlice({
 export const {
     setUser,
     setUsername,
-    clearUsername,
     setFoodId
 } = userSlice.actions
 

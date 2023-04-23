@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Link, useNavigate } from 'react-router-dom'
 import authApi from "../../api/modules/auth.api";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +16,8 @@ const LoginForm = ({ switchAuthState }) => {
   const [isLoginRequest, setIsLoginRequest] = useState(false)
   const [errorMessage, setErrorMessage] = useState()
   const username = useSelector((state)=> state.user.username)
+  const navigate = useNavigate()
+
 
   const loginForm = useFormik(
     {
@@ -41,6 +44,7 @@ const LoginForm = ({ switchAuthState }) => {
           loginForm.resetForm();
           dispatch(setUser(response));
           dispatch(setAuthModalOpen(false));
+          navigate('/')
           toast.success("Login successfully");
         }
         if(err) {
