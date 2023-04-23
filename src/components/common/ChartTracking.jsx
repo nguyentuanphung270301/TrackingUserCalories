@@ -6,6 +6,7 @@ import foodTrackingApi from '../../api/modules/foodtracking.api';
 import {
     Chart as ChartJS,
     CategoryScale,
+    LineController,
     LinearScale,
     PointElement,
     LineElement,
@@ -18,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { routesGen } from '../../routes/routes';
 
 ChartJS.register(
+    LineController,
     CategoryScale,
     LinearScale,
     PointElement,
