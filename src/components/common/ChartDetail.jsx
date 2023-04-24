@@ -1,11 +1,10 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Autocomplete, Box, Button, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import ElectricBoltOutlinedIcon from '@mui/icons-material/ElectricBoltOutlined';
-import Combobox from "react-widgets/Combobox";
-import "react-widgets/styles.css";
 import accountsApi from '../../api/modules/accounts.api';
 import foodTrackingApi from '../../api/modules/foodtracking.api';
+
 
 import {
     Chart as ChartJS,
@@ -39,6 +38,8 @@ const ChartDetail = () => {
     const [chartData, setChartData] = useState(null)
     const [DoughnutData, setDoughnutData] = useState(null)
     const [report, setReport] = useState(null)
+
+    const options = ["day", "week", "month", "year"];
 
     const now = new Date();
     const year = now.getFullYear();
@@ -129,7 +130,9 @@ const ChartDetail = () => {
                 display: 'flex',
                 width: '600px',
                 margin: 'auto',
-                justifyContent: 'space-between'
+                marginBottom: '40px',
+                justifyContent: 'space-between',
+                height: '50px'
             }}>
                 <TextField
                     type='date'
@@ -139,23 +142,25 @@ const ChartDetail = () => {
                         setDate(e.target.value)
                     }}
                     sx={{
-                        '.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root': {
-                            height: '40px'
-                        },
-                        '.css-kzf2d7-MuiInputBase-root-MuiOutlinedInput-root': {
-                            height: '40px'
-                        }
+                        width: '200px',
+                        height: '100%important'
                     }}
                 />
-                <Combobox
-                    defaultValue='day'
+                <Autocomplete
                     value={reportType}
-                    onChange={value => setReportType(value)}
-                    data={["day", "week", "month", "year"]}
+                    onChange={(event, newValue) => {
+                        setReportType(newValue);
+                    }}
+                    options={options}
+                    renderInput={(params) => <TextField {...params} label="Select option" />}
+                    sx={{
+                        width:'200px'
+                    }}
                 />
                 <Button variant='contained'
                     sx={{
                         width: '100px',
+                        height: '56px',
                         backgroundColor: 'green',
                         marginBottom: '20px',
                         ":hover": {
