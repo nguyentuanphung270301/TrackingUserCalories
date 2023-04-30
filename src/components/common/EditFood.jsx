@@ -1,4 +1,4 @@
-import { Autocomplete, Box, Button, TextField } from '@mui/material'
+import { Autocomplete, Box, Button, CircularProgress, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import categoryApi from '../../api/modules/category.api';
@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 
 
-const EditFood = ({id, onClose }) => {
+const EditFood = ({ id, onClose }) => {
 
     const [categoryList, setCategoryList] = useState([])
     const [selectedValue, setSelectedValue] = useState(categoryList[0]);
@@ -21,6 +21,8 @@ const EditFood = ({id, onClose }) => {
     const [energyPer, setEnergyPer] = useState(0)
     const [desc, setDesc] = useState('')
     const [name, setName] = useState('')
+    const [isLoading, setIsLoading] = useState(true)
+
 
     const form = useFormik({
         initialValues: {
@@ -37,7 +39,7 @@ const EditFood = ({id, onClose }) => {
 
     useEffect(() => {
         const getCategory = async () => {
-            const { response, err } = await foodApi.getFood( id )
+            const { response, err } = await foodApi.getFood(id)
             if (response) {
                 setName(response.name)
                 setSelectedValue(response.category)
@@ -47,6 +49,7 @@ const EditFood = ({id, onClose }) => {
                 setFat(response.fat)
                 setProtein(response.protein)
                 console.log(response)
+                setIsLoading(false)
             }
             if (err) console.log(err)
         }
@@ -62,13 +65,13 @@ const EditFood = ({id, onClose }) => {
         form.values.name = name
         form.values.protein = Number(protein)
         form.values.id = id
-        
+
         console.log(form.values)
         console.log(image.name)
 
-        const {response, err} = await foodApi.updateFood(image, form.values)
-        if(response) toast.success("Update food successfully")
-        if(err) console.log(err)
+        const { response, err } = await foodApi.updateFood(image, form.values)
+        if (response) toast.success("Update food successfully")
+        if (err) console.log(err)
 
     }
 
@@ -93,8 +96,8 @@ const EditFood = ({id, onClose }) => {
         <Box
             sx={{
                 position: 'absolute',
-                width: '600px',
-                height: '650px',
+                maxWidth: '500px',
+                height: '630px',
                 backgroundColor: '#f8f8f8',
                 top: "50%",
                 left: "50%",
@@ -103,157 +106,174 @@ const EditFood = ({id, onClose }) => {
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.5)'
             }}
         >
-            <Box display='flex'
-                flexDirection='row'
-                justifyContent='end'
-            >
-                <Button
-                    sx={{
-                        color: 'red',
-                        marginBottom: '20px'
-                    }}
-                    onClick={onClose}
-                >
-                    <CloseOutlinedIcon />
-                </Button>
-            </Box>
-            <Box display='flex'
-                flexDirection='row'
-                justifyContent='center'>
-                <Autocomplete
-                    disablePortal
-                    value={selectedValue || null}
-                    onChange={(event, values) => {
-                        setSelectedValue(values);
-                    }}
-                    inputValue={inputValue}
-                    onInputChange={(event, newInputValue) => {
-                        setInputValue(newInputValue);
-                    }}
-                    isOptionEqualToValue={(option, value) => option.id === value.id}
-                    options={categoryList}
-                    getOptionLabel={(categoryList) => categoryList.name}
-                    sx={{ width: 430 }}
-                    renderInput={(params) => <TextField {...params} label="Category" />}
-                />
-            </Box>
-            <Box display='flex'
-                flexDirection='row'
-                justifyContent='center'
-            >
-                <TextField
-                    type='text'
-                    label='Name'
-                    color='success'
-                    value={name}
-                    onChange={(e) => {
-                        setName(e.target.value)
-                    }}
-                    sx={{
-                        marginTop: '10px',
-                        width: '430px'
-                    }}
-                    error={name.length === 0}
-                    helperText={name.length === 0 && 'Name cannot be empty'}
-                />
-            </Box>
-            <Box display='flex'
-                flexDirection='row'
-                justifyContent='center'
-                margin='10px 0px'
-            >
-                <TextField
-                    type='number'
-                    label='Carb'
-                    color='success'
-                    value={carb}
-                    onChange={(e) => {
-                        setCarb(e.target.value)
-                    }}
-                    sx={{
-                        marginRight: '10px'
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-                <TextField
-                    type='number'
-                    label='Fat'
-                    color='success'
-                    value={fat}
-                    onChange={(e) => {
-                        setFat(e.target.value)
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-            </Box>
-            <Box display='flex'
-                flexDirection='row'
-                justifyContent='center'
-            >
-                <TextField
-                    type='number'
-                    label='Protein'
-                    color='success'
-                    value={protein}
-                    onChange={(e) => {
-                        setProtein(e.target.value)
-                    }}
-                    sx={{
-                        marginRight: '10px'
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-                <TextField
-                    type='number'
-                    label='Energy Per Serving'
-                    color='success'
-                    value={energyPer}
-                    onChange={(e) => {
-                        setEnergyPer(e.target.value)
-                    }}
-                    InputLabelProps={{
-                        shrink: true
-                    }}
-                />
-            </Box>
-            <TextField
-                type='file'
-                onChange={handleFileUpload}
+            {isLoading && <CircularProgress
                 sx={{
-                    margin: '10px 0px',
-                    width: '430px'
-                }} />
-            <TextField
-                type='text'
-                label='Description'
-                multiline
-                rows={6}
-                value={desc}
-                onChange={(e) => {
-                    setDesc(e.target.value)
-                }}
-                sx={{
-                    margin: '10px 0px',
-                    width: '430px',
-                }} />
-            <Box>
-                <Button variant='contained' sx={{
-                    backgroundColor: '#2daf1b',
-                    width: '430px',
-                    ":hover": {
-                        backgroundColor: '#2daf1b',
-                        opacity: '0.8'
-                    }
-                }}
-                onClick={() => onUpdate(form)}
-                >Save</Button>
-            </Box>
+                    color: 'green',
+                    margin: 'calc(450px / 2)',
+                    width: '100px',
+                    height: '100px'
+                }} />}
+            {!isLoading && (
+                <>
+                    <Box display='flex'
+                        flexDirection={{ xs: 'column', sm: 'row' }}
+                        justifyContent={{ xs: 'center', sm: 'end' }}
+                    >
+                        <Button
+                            sx={{
+                                color: 'red',
+                                marginBottom: '20px'
+                            }}
+                            onClick={onClose}
+                        >
+                            <CloseOutlinedIcon />
+                        </Button>
+                    </Box>
+                    <Box display='flex'
+                        flexDirection='row'
+                        justifyContent='center'>
+                        <Autocomplete
+                            disablePortal
+                            value={selectedValue || null}
+                            onChange={(event, values) => {
+                                setSelectedValue(values);
+                            }}
+                            inputValue={inputValue}
+                            onInputChange={(event, newInputValue) => {
+                                setInputValue(newInputValue);
+                            }}
+                            isOptionEqualToValue={(option, value) => option.id === value.id}
+                            options={categoryList}
+                            getOptionLabel={(categoryList) => categoryList.name}
+                            sx={{
+                                marginBottom: '10px',
+                                width: { xs: '100%', sm: '98%' }
+                            }}
+                            renderInput={(params) => <TextField {...params} label="Category" />}
+                        />
+                    </Box>
+                    <Box
+                    >
+                        <TextField
+                            type='text'
+                            label='Name'
+                            color='success'
+                            value={name}
+                            onChange={(e) => {
+                                setName(e.target.value)
+                            }}
+                            sx={{
+                                marginBottom: '10px',
+                                width: { xs: '100%', sm: '98%' }
+                            }}
+                            error={name.length === 0}
+                            helperText={name.length === 0 && 'Name cannot be empty'}
+                        />
+                    </Box>
+                    <Box
+                    >
+                        <TextField
+                            type='number'
+                            label='Carb'
+                            color='success'
+                            value={carb}
+                            onChange={(e) => {
+                                setCarb(e.target.value)
+                            }}
+                            sx={{
+                                marginRight: '10px',
+                                marginBottom: '10px',
+                                width: { xs: '100%', sm: '48%' }
+                            }}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                        />
+                        <TextField
+                            type='number'
+                            label='Fat'
+                            color='success'
+                            value={fat}
+                            onChange={(e) => {
+                                setFat(e.target.value)
+                            }}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            sx={{
+                                width: { xs: '100%', sm: '48%' }
+                            }}
+                        />
+                    </Box>
+                    <Box
+                    >
+                        <TextField
+                            type='number'
+                            label='Protein'
+                            color='success'
+                            value={protein}
+                            onChange={(e) => {
+                                setProtein(e.target.value)
+                            }}
+                            sx={{
+                                marginBottom: '10px',
+                                marginRight: '10px',
+                                width: { xs: '100%', sm: '48%' }
+                            }}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                        />
+                        <TextField
+                            type='number'
+                            label='Energy Per Serving'
+                            color='success'
+                            value={energyPer}
+                            onChange={(e) => {
+                                setEnergyPer(e.target.value)
+                            }}
+                            InputLabelProps={{
+                                shrink: true
+                            }}
+                            sx={{
+                                width: { xs: '100%', sm: '48%' }
+                            }}
+                        />
+                    </Box>
+                    <TextField
+                        type='file'
+                        onChange={handleFileUpload}
+                        sx={{
+                            marginBottom:'10px',
+                            width: { xs: '100%', sm: '98%' }
+                        }} />
+                    <TextField
+                        type='text'
+                        label='Description'
+                        multiline
+                        rows={6}
+                        value={desc}
+                        onChange={(e) => {
+                            setDesc(e.target.value)
+                        }}
+                        sx={{
+                            marginBottom:'10px',
+                            width: { xs: '100%', sm: '98%' }
+                        }} />
+                    <Box>
+                        <Button variant='contained' sx={{
+                            backgroundColor: '#2daf1b',
+                            width: '430px',
+                            ":hover": {
+                                backgroundColor: '#2daf1b',
+                                opacity: '0.8'
+                            }
+                        }}
+                            onClick={() => onUpdate(form)}
+                        >Save</Button>
+                    </Box>
+                </>
+            )}
         </Box>
     )
 }

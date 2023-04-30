@@ -16,7 +16,7 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import Typography from '@mui/material/Typography';
 import { visuallyHidden } from '@mui/utils';
 import AddCategory from './AddCategory';
-import { Avatar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
+import { Avatar, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Paper } from '@mui/material';
 import categoryApi from '../../api/modules/category.api';
 import { toast } from 'react-toastify';
 
@@ -127,6 +127,7 @@ export default function AdminCategory() {
 
   const [showEdit, setShowEdit] = useState(false)
 
+  const [isLoading, setIsLoading] = useState(true)
 
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
@@ -194,6 +195,7 @@ export default function AdminCategory() {
       if (response) {
         setCategoryList(response)
         console.log(response)
+        setIsLoading(false)
       }
       if (err) console.log(err)
     }
@@ -221,11 +223,7 @@ export default function AdminCategory() {
 
 
   return (
-    <Box position='relative'
-      sx={{
-        width: '1475px',
-        height: '745px',
-      }}
+    <Box sx={{ width: '100%', maxWidth: '100vw', height: '100vh', display: 'flex', flexDirection: 'column' }}
     >
       <Box position='fixed'
         width='calc(100% - 60px)'
@@ -237,13 +235,10 @@ export default function AdminCategory() {
           right: 0
         }}
       >
-        <Box display='flex'
-          alignItems='center'
-          marginLeft='50px'
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'row', width: '300px', margin: '20px 0px 10px 20px', justifyContent: 'space-between', alignItems: 'flex-start' }}
         >
           <Typography textTransform='uppercase' variant='h5' fontWeight='500'>Category</Typography>
           <Button variant='contained' sx={{
-            margin: '20px 0px 20px 50px',
             backgroundColor: '#2daf1b',
             ":hover": {
               backgroundColor: '#2daf1b',
@@ -256,100 +251,110 @@ export default function AdminCategory() {
           </Button>
         </Box>
         <Box>
-          <TableContainer component={Paper} sx={{ height: '520px', }}>
-            <Table sx={{ minWidth: 650 }} aria-labelledby="tableTitle"
-            >
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={categoryList.length}
-              />
-              <TableBody>
-                {stableSort(categoryList, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
-                    return (
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.name)}
-                        tabIndex={-1}
-                        key={row.name}
-                      >
-                        <TableCell
-                        >
-                          <Avatar src={row.image} />
-                        </TableCell>
-                        <TableCell >{row.id}</TableCell>
-                        <TableCell >{row.name}</TableCell>
-                        <TableCell sx={{
-                          display: 'flex',
-                          justifyItems: 'center',
-                        }}>
-                          <Button
-                            variant='contained'
-                            sx={{
-                              marginRight: '10px',
-                              height:'40px'
-                            }}
-                            onClick={() => handleEidt(row.id)}
-                          ><EditOutlinedIcon /></Button>
-                          <Box>
-                            <Button
-                              variant='contained'
-                              sx={{
-                                backgroundColor: 'red',
-                              height:'40px',
-                                ":hover": {
-                                  backgroundColor: 'red',
-                                  opacity: 0.8
-                                }
-                              }}
-                              onClick={() => handleClickOpen(row.id)}
+          {isLoading && <CircularProgress sx={{
+            color: 'green',
+            margin: 'calc(500px / 2)',
+            width: '100px',
+            height: '100px'
+          }} />}
+          {!isLoading && (
+            <>
+              <TableContainer component={Paper} sx={{ height: '550px', }}>
+                <Table sx={{ minWidth: 650 }} aria-labelledby="tableTitle"
+                >
+                  <EnhancedTableHead
+                    numSelected={selected.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={categoryList.length}
+                  />
+                  <TableBody>
+                    {stableSort(categoryList, getComparator(order, orderBy))
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row, index) => {
+                        return (
+                          <TableRow
+                            hover
+                            onClick={(event) => handleClick(event, row.name)}
+                            tabIndex={-1}
+                            key={row.name}
+                          >
+                            <TableCell
                             >
-                              <DeleteOutlineOutlinedIcon />
-                            </Button>
-                            <Dialog
-                              open={open}
-                              onClose={handleClose}
-                            >
-                              <DialogTitle>Delete category</DialogTitle>
-                              <DialogContent>
-                                <DialogContentText>
-                                  Are you sure you want to delete this category?
-                                </DialogContentText>
-                              </DialogContent>
-                              <DialogActions>
-                                <Button onClick={handleClose}>Cancel</Button>
+                              <Avatar src={row.image} />
+                            </TableCell>
+                            <TableCell >{row.id}</TableCell>
+                            <TableCell >{row.name}</TableCell>
+                            <TableCell sx={{
+                              display: 'flex',
+                              justifyItems: 'center',
+                            }}>
+                              <Button
+                                variant='contained'
+                                sx={{
+                                  marginRight: '10px',
+                                  height: '40px'
+                                }}
+                                onClick={() => handleEidt(row.id)}
+                              ><EditOutlinedIcon /></Button>
+                              <Box>
                                 <Button
-                                  onClick={() => deleteCategory(selectedId)}
+                                  variant='contained'
                                   sx={{
-                                    backgroundColor: 'white',
+                                    backgroundColor: 'red',
+                                    height: '40px',
                                     ":hover": {
                                       backgroundColor: 'red',
                                       opacity: 0.8
                                     }
                                   }}
+                                  onClick={() => handleClickOpen(row.id)}
                                 >
-                                  Delete
+                                  <DeleteOutlineOutlinedIcon />
                                 </Button>
-                              </DialogActions>
-                            </Dialog>
-                          </Box>
-                        </TableCell>
+                                <Dialog
+                                  open={open}
+                                  onClose={handleClose}
+                                >
+                                  <DialogTitle>Delete category</DialogTitle>
+                                  <DialogContent>
+                                    <DialogContentText>
+                                      Are you sure you want to delete this category?
+                                    </DialogContentText>
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <Button onClick={handleClose}>Cancel</Button>
+                                    <Button
+                                      onClick={() => deleteCategory(selectedId)}
+                                      sx={{
+                                        backgroundColor: 'white',
+                                        ":hover": {
+                                          backgroundColor: 'red',
+                                          opacity: 0.8
+                                        }
+                                      }}
+                                    >
+                                      Delete
+                                    </Button>
+                                  </DialogActions>
+                                </Dialog>
+                              </Box>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    {emptyRows > 0 && (
+                      <TableRow
+                      >
+                        <TableCell colSpan={6} />
                       </TableRow>
-                    );
-                  })}
-                {emptyRows > 0 && (
-                  <TableRow
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </>
+          )}
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"

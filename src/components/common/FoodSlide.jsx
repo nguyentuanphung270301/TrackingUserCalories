@@ -30,7 +30,7 @@ const FoodSlide = () => {
             position: 'relative',
             "&::before": {
                 content: '""',
-                width: '100%',
+                width: '100vw',
                 height: '500px',
                 position: 'relative',
                 bottom: 0,

@@ -23,7 +23,7 @@ const NavBar = () => {
 
     return (
         <Box sx={{
-            height: 'calc(100%-100px)',
+            height: '100vh',
             position: 'fixed',
             borderRadius: '5px',
             backgroundColor: '#d2d2d2',

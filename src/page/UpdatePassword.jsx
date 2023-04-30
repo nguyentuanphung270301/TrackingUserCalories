@@ -57,8 +57,8 @@ const UpdatePassword = () => {
         console.log(values)
 
         if (err) {
-            if(err.statusCode === 404) toast.error('Wrong username or password not found')
-            if(err.statusCode === 400) toast.error('Information is missing or invalid')
+            if (err.statusCode === 404) toast.error('Wrong username or password not found')
+            if (err.statusCode === 400) toast.error('Information is missing or invalid')
 
         }
         if (response) {
@@ -72,16 +72,21 @@ const UpdatePassword = () => {
 
 
     return (
-        <Box>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100vw',
+            height: '100vh'
+        }}>
             <Typography sx={{
-                display: 'flex',
-                margin: '50px 0px 0px 40px'
+                textTransform: 'uppercase',
             }}
-                textTransform="uppercase"
-                variant='h5'
-                fontWeight='500'
+            fontWeight='500'
+            variant='h5'
             >Update password</Typography>
-            <Box component='form' width='400px' onSubmit={form.handleSubmit}>
+            <Box component='form' sx={{ width: '100%', maxWidth: '400px' }} onSubmit={form.handleSubmit}>
                 <Stack spacing={2} margin='20px 0px 0px 40px'>
                     <TextField
                         type='password'

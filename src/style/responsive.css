@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+    form {
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+  }

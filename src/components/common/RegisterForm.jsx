@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import authApi from "../../api/modules/auth.api";
 import { toast } from "react-toastify";
-import { Alert, Box, Button, Stack, TextField } from '@mui/material'
+import { Box, Button, Stack, TextField } from '@mui/material'
 import { LoadingButton } from "@mui/lab";
 import { setUser } from "../../redux/features/userSlice";
 import { setAuthModalOpen } from "../../redux/features/authModalSlice";
@@ -15,7 +15,6 @@ const RegisterForm = ({ switchAuthState }) => {
     const dispatch = useDispatch()
 
     const [isLoginRequest, setIsLoginRequest] = useState(false);
-    const [errorMessage, setErrorMessage] = useState();
 
 
     const registerForm = useFormik({
@@ -28,29 +27,24 @@ const RegisterForm = ({ switchAuthState }) => {
             username: "",
         },
         validationSchema: Yup.object({
-            username: Yup.string().min(8, 'username minimum 8 characters').required('username is required'),
+            username: Yup.string().min(5, 'username minimum 5 characters').required('username is required'),
             firstName: Yup.string().required('first name is required'),
             lastName: Yup.string().required('last name is required'),
-            password: Yup.string().min(8, 'password minium 8 characters').required('password is required'),
+            password: Yup.string().min(5, 'password minium 5 characters').required('password is required'),
             email: Yup.string().email('Invalid email address').required('email is required'),
         }),
         onSubmit: async values => {
-            setErrorMessage(undefined)
             setIsLoginRequest(true)
             const { response, err } = await authApi.register(values)
-            console.log(response)
-            setIsLoginRequest(false)
-
             if (response) {
-                registerForm.resetForm()
-                console.log(values)
-                dispatch(setUser(response))
+                console.log(response)
+                setIsLoginRequest(false)
                 dispatch(setAuthModalOpen(false))
-                toast.success("Register in success")
+                toast.success('Successful account registration')
             }
-
             if (err) {
                 toast.error(err.message)
+                setIsLoginRequest(false)
             }
 
         }
@@ -147,13 +141,6 @@ const RegisterForm = ({ switchAuthState }) => {
             >
                 login
             </Button>
-
-            {errorMessage && (
-                <Box sx={{ marginTop: 2 }}>
-                    <Alert severity='error' variant='outlined'>{errorMessage}</Alert>
-                </Box>
-            )}
-
         </Box>
     )
 

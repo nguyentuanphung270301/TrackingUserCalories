@@ -1,7 +1,7 @@
 import axios from 'axios'
 import queryString from 'query-string'
 
-const baseURL = "https://caloriestrackingapprestapis-production.up.railway.app/"
+const baseURL = "https://calories-tracking-app.azurewebsites.net/"
 
 const axiosPublicClient = axios.create({
     baseURL,

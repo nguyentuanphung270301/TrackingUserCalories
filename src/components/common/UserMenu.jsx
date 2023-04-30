@@ -60,7 +60,7 @@ const UserMenu = () => {
                     marginLeft:'5px'
                 }}/>
                     <Typography
-                        variant='h6' fontWeight='400' fontSize='14px'
+                        variant='h6' fontWeight='500' fontSize='14px'
                         sx={{ cursor: 'pointer', userSelect: 'none', marginLeft: '10px' }}
                         onClick={toggleMenu}
                     >
@@ -78,7 +78,7 @@ const UserMenu = () => {
                     >
                         <Link to={routesGen.profile(username)} style={{ textDecoration: 'none', color: 'inherit' }} >
                             <ListItemButton>
-                                <ListItemButton><PersonOutlineOutlinedIcon /></ListItemButton>
+                                <ListItemButton><PersonOutlineOutlinedIcon sx={{color:'blue'}}/></ListItemButton>
                                 <ListItemText disableTypography primary={
                                     <Typography variant="h7">Profile</Typography>
                                 }
@@ -89,7 +89,7 @@ const UserMenu = () => {
                         {account && account.role === 'ROLE_ADMIN' &&
                             <Link to={routesGen.admin} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 <ListItemButton>
-                                    <ListItemButton><AdminPanelSettingsOutlinedIcon /></ListItemButton>
+                                    <ListItemButton><AdminPanelSettingsOutlinedIcon sx={{color:'yellow'}} /></ListItemButton>
                                     <ListItemText disableTypography primary={
                                         <Typography variant="h7">Admin</Typography>
                                     }
@@ -100,7 +100,7 @@ const UserMenu = () => {
 
                         <Link to={routesGen.userFavorites(username)} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <ListItemButton>
-                                <ListItemButton><FavoriteBorderOutlinedIcon /></ListItemButton>
+                                <ListItemButton><FavoriteBorderOutlinedIcon sx={{color:'red'}}/></ListItemButton>
                                 <ListItemText disableTypography primary={
                                     <Typography variant="h7">Favorite</Typography>
                                 }
@@ -110,7 +110,7 @@ const UserMenu = () => {
 
                         <Link to={routesGen.updatepassword} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <ListItemButton>
-                                <ListItemButton><PasswordOutlinedIcon /></ListItemButton>
+                                <ListItemButton><PasswordOutlinedIcon sx={{color:'green'}} /></ListItemButton>
                                 <ListItemText disableTypography primary={
                                     <Typography variant="h7">Update password</Typography>
                                 }
@@ -122,7 +122,7 @@ const UserMenu = () => {
                             sx={{ borderRadius: '10px' }}
                             onClick={logOut}
                         >
-                            <ListItemButton><LogoutOutlinedIcon /></ListItemButton>
+                            <ListItemButton><LogoutOutlinedIcon sx={{color:'purple'}}/></ListItemButton>
                             <ListItemText disableTypography primary={
                                 <Typography variant="h7">Log out</Typography>
                             }>

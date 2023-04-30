@@ -81,7 +81,7 @@ const AddFood = ({ onClose }) => {
         <Box
             sx={{
                 position: 'absolute',
-                width: '600px',
+                maxWidth: '500px',
                 height: '630px',
                 backgroundColor: '#f8f8f8',
                 top: "50%",
@@ -122,13 +122,11 @@ const AddFood = ({ onClose }) => {
                     isOptionEqualToValue={(option, value) => option.id === value.id}
                     options={categoryList}
                     getOptionLabel={(categoryList) => categoryList.name}
-                    sx={{ width: 430 }}
+                    sx={{ marginBottom: '10px', width: { xs: '100%', sm: '98%' } }}
                     renderInput={(params) => <TextField {...params} label="Category" />}
                 />
             </Box>
-            <Box display='flex'
-                flexDirection='row'
-                justifyContent='center'
+            <Box s
             >
                 <TextField
                     type='text'
@@ -139,17 +137,14 @@ const AddFood = ({ onClose }) => {
                         setName(e.target.value)
                     }}
                     sx={{
-                        marginTop: '10px',
-                        width: '430px'
+                        marginBottom: '10px',
+                        width: { xs: '100%', sm: '98%' }
                     }}
                     error={Name.length === 0}
                     helperText={Name.length === 0 && 'Name cannot be empty'}
                 />
             </Box>
-            <Box display='flex'
-                flexDirection='row'
-                justifyContent='center'
-                margin='10px 0px'
+            <Box
             >
                 <TextField
                     type='number'
@@ -160,7 +155,9 @@ const AddFood = ({ onClose }) => {
                         setCarb(e.target.value)
                     }}
                     sx={{
-                        marginRight: '10px'
+                        marginRight: '10px',
+                        marginBottom: '10px',
+                        width: { xs: '100%', sm: '48%' }
                     }}
                     InputLabelProps={{
                         shrink: true
@@ -177,6 +174,9 @@ const AddFood = ({ onClose }) => {
                     InputLabelProps={{
                         shrink: true
                     }}
+                    sx={{
+                        width: { xs: '100%', sm: '48%' }
+                    }}
                 />
             </Box>
             <Box display='flex'
@@ -192,7 +192,9 @@ const AddFood = ({ onClose }) => {
                         setProtein(e.target.value)
                     }}
                     sx={{
-                        marginRight: '10px'
+                        marginRight: '10px',
+                        marginBottom: '10px',
+                        width: { xs: '100%', sm: '48%' }
                     }}
                     InputLabelProps={{
                         shrink: true
@@ -209,15 +211,18 @@ const AddFood = ({ onClose }) => {
                     InputLabelProps={{
                         shrink: true
                     }}
+                    sx={{
+                        width: { xs: '100%', sm: '48%' }
+                    }}
                 />
             </Box>
             <TextField
                 type='file'
                 onChange={handleFileUpload}
                 sx={{
-                    margin: '10px 0px',
-                    width: '430px'
-                }} />
+                marginBottom: '10px',
+                width: { xs: '100%', sm: '98%' }
+              }} />
             <TextField
                 type='text'
                 label='Description'
@@ -228,9 +233,9 @@ const AddFood = ({ onClose }) => {
                     setDesc(e.target.value)
                 }}
                 sx={{
-                    margin: '10px 0px',
-                    width: '430px'
-                }} />
+                marginBottom: '10px',
+                width: { xs: '100%', sm: '98%' }
+              }} />
             <Box>
                 <Button variant='contained' sx={{
                     backgroundColor: '#2daf1b',

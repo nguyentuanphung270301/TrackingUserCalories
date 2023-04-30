@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import AdminFoods from '../components/common/AdminFoods'
 import AdminCategory from '../components/common/AdminCategory'
 import AdminUser from '../components/common/AdminUser'
@@ -20,7 +20,7 @@ const AdminPage = () => {
                 display: 'flex',
                 verticalAlign: 'center',
                 borderRadius: '10px',
-                zIndex:1,
+                zIndex: 1,
             }}>
 
                 <Button sx={{
@@ -38,7 +38,7 @@ const AdminPage = () => {
                         color: 'white'
                     }
                 }}
-                onClick={() => setRequest('account')}
+                    onClick={() => setRequest('account')}
                 >
                     <Typography variant='h6' fontWeight='400' textAlign='center'>Account</Typography>
                 </Button>
@@ -57,7 +57,7 @@ const AdminPage = () => {
                         color: 'white'
                     }
                 }}
-                onClick={() => setRequest('user')}
+                    onClick={() => setRequest('user')}
                 >
                     <Typography variant='h6' fontWeight='400' textAlign='center'>User</Typography>
                 </Box>
@@ -98,15 +98,15 @@ const AdminPage = () => {
                         color: 'white'
                     },
                 }}
-                onClick={() => setRequest('foods')}
+                    onClick={() => setRequest('foods')}
                 >
                     <Typography variant='h6' fontWeight='400' textAlign='center'>Food</Typography>
                 </Box>
             </Box>
             {request === 'category' && <AdminCategory />}
-            {request === 'foods' && <AdminFoods/>}
-            {request === 'user' && <AdminUser/>}
-            {request === 'account' && <AdminAccount/>}
+            {request === 'foods' && <AdminFoods />}
+            {request === 'user' && <AdminUser />}
+            {request === 'account' && <AdminAccount />}
         </Box>
     )
 }

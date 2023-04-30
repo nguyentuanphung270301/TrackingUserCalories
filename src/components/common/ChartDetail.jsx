@@ -39,6 +39,8 @@ const ChartDetail = () => {
     const [DoughnutData, setDoughnutData] = useState(null)
     const [report, setReport] = useState(null)
 
+
+    
     const options = ["day", "week", "month", "year"];
 
     const now = new Date();
