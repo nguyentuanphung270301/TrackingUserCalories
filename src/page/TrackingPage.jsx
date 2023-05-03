@@ -10,7 +10,7 @@ const TrackingPage = () => {
     >
       <Box
         width='1000px'
-        height='743px'
+        height='100vh'
         sx={{
           backgroundColor: '#f9f9f9',
           marginRight: '5px'
@@ -20,7 +20,7 @@ const TrackingPage = () => {
       </Box>
       <Box
         width='470px'
-        height='743px'
+        height='100vh'
         sx={{
           backgroundColor: 'white'
         }}

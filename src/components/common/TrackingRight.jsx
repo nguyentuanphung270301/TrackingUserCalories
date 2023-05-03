@@ -1,4 +1,4 @@
-import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Grid, InputAdornment, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -17,7 +17,7 @@ const TrackingRight = () => {
   const [isRequest, setIsRequest] = useState(false)
   const [trackingList, setTrackingList] = useState(null)
 
-
+  const [isLoading, setIsLoading] = useState(true)
 
   const now = new Date();
   const year = now.getFullYear();
@@ -37,8 +37,13 @@ const TrackingRight = () => {
       if (response) {
         console.log(response)
         setTrackingList(response.consumedHistory)
+        setIsLoading(false)
       }
-      if (err) console.log(err)
+      if (err) {
+        console.log(err)
+        setTrackingList(null)
+        setIsLoading(false)
+      }
     }
     getTrackingList()
   }, [isRequest])
@@ -75,22 +80,28 @@ const TrackingRight = () => {
 
 
   const onSave = async () => {
+    setIsLoading(true)
     const { response, err } = await foodTrackingApi.addFoodTracking({ userId, foodId, consumedGram })
     if (response) {
       setIsRequest(!isRequest)
       console.log(response)
+      setConsumedGram(null)
+      setFoodItem(null)
       toast.success("Add tracking successfully")
+      setIsLoading(false)
     }
     if (err) toast.error(err)
   }
 
-  
+
   const deleteTracking = async (trackingId) => {
+    setIsLoading(true)
     const { response, err } = await foodTrackingApi.deleteTracking(trackingId)
     if (response) {
       setIsRequest(!isRequest)
       console.log(response)
       toast.success("Remove tracking successfully!")
+      setIsLoading(false)
     }
     if (err) toast.error(err)
   }
@@ -207,7 +218,17 @@ const TrackingRight = () => {
               margin: '5px'
             }}
           >
-            {trackingList && <TrackingItem trackingList={trackingList} deleteTracking={deleteTracking}/>}
+            {isLoading && <CircularProgress sx={{
+              color: 'green',
+              marginTop: '50px',
+              width: '100px',
+              height: '100px'
+            }} />}
+            {!isLoading && (
+              <>
+                {trackingList && <TrackingItem trackingList={trackingList} deleteTracking={deleteTracking} />}
+              </>
+            )}
           </Grid>
         </Grid>
       </Box>

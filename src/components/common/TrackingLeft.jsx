@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab'
-import { Avatar, Box, Grid, TextField, Typography } from '@mui/material'
+import { Avatar, Box, CircularProgress, Grid, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import categoryApi from '../../api/modules/category.api'
 import foodApi from '../../api/modules/foods.api'
@@ -18,6 +18,8 @@ const TrackingLeft = () => {
     const [filteredResult, setFilteredResult] = useState(null)
     const [isRequest, setIsRequest] = useState(null)
     const [query, setQuery] = useState('')
+    const [isLoadingCategory, setIsLoadingCategory] = useState(true)
+    const [isLoadingFood, setIsLoadingFood] = useState(true)
 
     const handleSelectedCategoryChange = (selectedId) => {
         setCateId(selectedId);
@@ -33,6 +35,7 @@ const TrackingLeft = () => {
             const { response, err } = await categoryApi.listCategories()
             if (response) {
                 setCateList(response)
+                setIsLoadingCategory(false)
             }
             if (err) console.log(err)
         }
@@ -45,23 +48,29 @@ const TrackingLeft = () => {
                 const { response, err } = await foodApi.listFoodsWithCategory(cateId)
                 if (response) setFilteredResult(response)
                 if (err) console.log(err)
+                setIsLoadingFood(false)
             }
             if (isRequest === null && query === '') {
                 const { response, err } = await foodApi.listFoods()
-                if (response) setFilteredResult(response)
+                if (response) {
+                    setFilteredResult(response)
+                    setIsLoadingFood(false)
+                }
                 if (err) console.log(err)
             }
-            if(query !== '') {
+            if (query !== '') {
+                setIsLoadingFood(true)
                 const { response, err } = await foodApi.listFoods()
                 if (response) {
                     const filteredResult = response.filter(item => item.name.toLowerCase().includes(query.toLowerCase()))
                     setFilteredResult(filteredResult)
+                    setIsLoadingFood(false)
                 }
-                if(err) console.log(err)
+                if (err) console.log(err)
             }
         }
         getResult()
-    }, [cateId,isRequest,query])
+    }, [cateId, isRequest, query])
 
 
 
@@ -151,37 +160,47 @@ const TrackingLeft = () => {
                         float: 'left'
                     }}
                 >Menu Category</Typography>
-                <Box
-                    sx={{
-                        flexGrow: 1,
-                        marginBottom: '20px'
-                    }}>
-                    <Grid container spacing={{ xs: 2 }} display='block'>
-                        <Grid item xs display='flex' overflow='auto'
+                {isLoadingCategory && <CircularProgress sx={{
+                    color: 'green',
+                    marginTop: '50px',
+                    width: '100px',
+                    height: '100px'
+                }} />}
+                {!isLoadingCategory && (
+                    <>
+                        <Box
                             sx={{
-                                '&::-webkit-scrollbar': {
-                                    width: '8px',
-                                    height: '10px',
-                                },
-                                '&::-webkit-scrollbar-track': {
-                                    background: '#f1f1f1',
-                                },
-                                '&::-webkit-scrollbar-thumb': {
-                                    background: '#ccc',
-                                    borderRadius: '10px',
-                                },
-                                '&::-webkit-scrollbar-thumb:hover': {
-                                    background: '#555',
-                                },
-                                width: "916px",
-                                marginLeft: "15px",
-                                padding: '0!important'
-                            }}
-                        >
-                            <TrackingCategoryList category={cateList} onSelectedCategoryChange={handleSelectedCategoryChange} onRequest={handleIsReuest} />
-                        </Grid>
-                    </Grid>
-                </Box>
+                                flexGrow: 1,
+                                marginBottom: '20px'
+                            }}>
+                            <Grid container spacing={{ xs: 2 }} display='block'>
+                                <Grid item xs display='flex' overflow='auto'
+                                    sx={{
+                                        '&::-webkit-scrollbar': {
+                                            width: '8px',
+                                            height: '10px',
+                                        },
+                                        '&::-webkit-scrollbar-track': {
+                                            background: '#f1f1f1',
+                                        },
+                                        '&::-webkit-scrollbar-thumb': {
+                                            background: '#ccc',
+                                            borderRadius: '10px',
+                                        },
+                                        '&::-webkit-scrollbar-thumb:hover': {
+                                            background: '#555',
+                                        },
+                                        width: "916px",
+                                        marginLeft: "15px",
+                                        padding: '0!important'
+                                    }}
+                                >
+                                    <TrackingCategoryList category={cateList} onSelectedCategoryChange={handleSelectedCategoryChange} onRequest={handleIsReuest} />
+                                </Grid>
+                            </Grid>
+                        </Box>
+                    </>
+                )}
                 <Box
                     sx={{
                         display: "flex"
@@ -208,7 +227,17 @@ const TrackingLeft = () => {
                                 padding: '0!important'
                             }}
                         >
-                            <TrackingFoodList foods={filteredResult} />
+                            {isLoadingFood && <CircularProgress sx={{
+                                color: 'green',
+                                margin: '50px 0px 0px 500px',
+                                width: '100px',
+                                height: '100px'
+                            }} />}
+                            {!isLoadingFood && (
+                                <>
+                                    <TrackingFoodList foods={filteredResult} />
+                                </>
+                            )}
                         </Grid>
                     </Grid>
                 </Box>

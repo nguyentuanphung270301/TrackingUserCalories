@@ -1,13 +1,12 @@
-import { Box, Grid, Stack, Typography } from '@mui/material'
-import { textAlign } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import categoryApi from '../api/modules/category.api'
 import FoodGrids from '../components/common/FoodGrids'
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 import FoodSlide from '../components/common/FoodSlide'
 
 const Categories = () => {
     const [categoryList, setCategoryList] = useState([])
+
 
     useEffect(() => {
         const getCategory = async () => {
@@ -15,8 +14,9 @@ const Categories = () => {
             if (response) {
                 setCategoryList(response)
                 console.log(response)
+
             }
-            if(err) toast.error('Please login')
+            if (err) toast.error('Please login')
         }
         getCategory()
     }, [])
@@ -24,8 +24,8 @@ const Categories = () => {
 
     return (
         <>
-            <FoodSlide/>
-            <FoodGrids categories={categoryList}/>
+            <FoodSlide />
+            <FoodGrids categories={categoryList} />
         </>
     )
 }

@@ -106,7 +106,7 @@ const FoodSlide = () => {
                                         marginLeft: '30px'
                                     }} />
                             </Box>
-                            <Typography variant='p' color='black' display='flex' fontSize='20px' sx={{ margin: '100px 100px' }}>Set more than a decade after the events of the first film, learn the story of the Sully family (Jake, Neytiri, and their kids), the trouble that follows them, the lengths they go to keep each other safe, the battles they fight to stay alive, and the tragedies they endure.</Typography>
+                            <Typography variant='p' color='black' display='flex' fontSize='20px' sx={{ margin: '100px 100px' }}>{item.description}</Typography>
                         </Box>
                         </Box>
                     </SwiperSlide>
