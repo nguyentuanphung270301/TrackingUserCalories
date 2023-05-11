@@ -121,7 +121,7 @@ const DetailTracking = () => {
                         backgroundColor: '#ffdf00',
                         borderRadius: '5px'
                     }}>{fat.toFixed(2)}G</Typography>
-                    <ProgressBar margin='220px 0px 0px 30px' width='150px' completed={`${((fat/80)*100).toFixed(2)}%`} maxCompleted={100} bgColor='#0099ff' />
+                    <ProgressBar margin='220px 0px 0px 30px' width='150px' customLabel={`${((fat/80)*100).toFixed(2)}%`} completed={((fat/80)*100).toFixed(2)} maxCompleted={100} bgColor='#0099ff' />
                 </Box>
                 <Box
                     sx={{
@@ -158,7 +158,7 @@ const DetailTracking = () => {
                         backgroundColor: '#147800',
                         borderRadius: '5px'
                     }} >{protein.toFixed(2)}G</Typography>
-                    <ProgressBar margin='220px 0px 0px 30px' width='150px' completed={`${((protein/progressProtein)*100).toFixed(2)}%`} maxCompleted={100} bgColor='#0099ff' />
+                    <ProgressBar margin='220px 0px 0px 30px' width='150px' customLabel={`${((protein/progressProtein)*100).toFixed(2)}%`} completed={((protein/progressProtein)*100).toFixed(2)} maxCompleted={100} bgColor='#0099ff' />
                 </Box>
                 <Box
                     sx={{
@@ -195,7 +195,7 @@ const DetailTracking = () => {
                         backgroundColor: '#ff0000',
                         borderRadius: '5px'
                     }} >{carb.toFixed(2)}G</Typography>
-                    <ProgressBar margin='220px 0px 0px 30px' width='150px' completed={`${((carb/125)*100).toFixed(2)}%`} bgColor='#0099ff'  maxCompleted={100}/>
+                    <ProgressBar margin='220px 0px 0px 30px' width='150px' customLabel={`${((carb/125)*100).toFixed(2)}%`} completed={((carb/125)*100).toFixed(2)} bgColor='#0099ff'  maxCompleted={100}/>
                 </Box>
             </Box>
         </Box>
