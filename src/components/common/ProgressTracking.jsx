@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css';
@@ -14,6 +14,7 @@ const ProgressTracking = () => {
     const [totalCalories, setTotalCalories] = useState(2100)
     const [total, setTotal] = useState(0)
     const [percentage, setPercentage] = useState(0)
+    const [isLoading, setIsLoading] = useState(true)
 
     const now = new Date();
     const year = now.getFullYear();
@@ -38,18 +39,22 @@ const ProgressTracking = () => {
                     const age = moment().diff(response.user.dob, 'years')
                     const temp = (6.25 * response.user.height) + (10 * response.user.weight) - (5 * age) + 5
                     setTotalCalories(temp)
+                    setIsLoading(false)
                 }
                 if (!response.user.gender && response.user.height !== null && response.user.weight !== null && response.user.dob !== null) {
                     const age = moment().diff(response.user.dob, 'years')
                     const temp = (6.25 * response.user.height) + (10 * response.user.weight) - (5 * age) - 161
                     setTotalCalories(temp)
+                    setIsLoading(false)
                 }
                 if (response.user.height === null || response.user.weight === null || response.user.dob === null) {
                     setTotalCalories(2100)
+                    setIsLoading(false)
                 }
             } catch (error) {
                 console.log('Failed to fetch account: ', error)
                 setTotalCalories(2100)
+                setIsLoading(false)
             }
         }
         getUser()
@@ -100,29 +105,39 @@ const ProgressTracking = () => {
                 left: '80px',
             }}>You loaded in today: {total}g</Typography>
 
+            {isLoading && <CircularProgress sx={{
+                color: 'green',
+                marginTop:'150px',
+                marginLeft:'400px',
+                width: '100px',
+                height: '100px'
+            }} />}
+            {!isLoading && (
+                <>
 
+                    <CircularProgressbar
+                        value={percentage}
+                        text={`${total}/${totalCalories}`}
+                        styles={{
+                            root: {
+                                position: 'relative',
+                                height: '250px',
+                                top: '70',
+                                left: '250'
+                            },
+                            path: {
+                                stroke: '#F67416'
+                            },
+                            text: {
+                                fill: '#2daf1b',
+                                fontSize: '11px',
+                                fontWeight: '500'
+                            }
 
-            <CircularProgressbar
-                value={percentage}
-                text={`${total}/${totalCalories}`}
-                styles={{
-                    root: {
-                        position: 'relative',
-                        height: '250px',
-                        top: '70',
-                        left: '250'
-                    },
-                    path: {
-                        stroke: '#F67416'
-                    },
-                    text: {
-                        fill: '#2daf1b',
-                        fontSize: '11px',
-                        fontWeight: '500'
-                    }
-
-                }}
-            />
+                        }}
+                    />
+                </>
+            )}
         </Box>
     )
 }

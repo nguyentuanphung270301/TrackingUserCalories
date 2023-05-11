@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography } from '@mui/material'
+import { Box, CircularProgress, Grid, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import accountsApi from '../../api/modules/accounts.api'
@@ -6,6 +6,8 @@ import foodTrackingApi from '../../api/modules/foodtracking.api'
 
 const HistoryTracking = () => {
     const username = useSelector((state) => state.user.username) || localStorage.getItem('username')
+
+    const [isLoading, setIsLoading] = useState(true)
 
     const now = new Date();
     const year = now.getFullYear();
@@ -17,7 +19,7 @@ const HistoryTracking = () => {
     const [trackingHistory, setTrackingHistory] = useState(null)
     const reportType = 'day'
 
-    
+
 
     useEffect(() => {
         const getUser = async () => {
@@ -34,14 +36,17 @@ const HistoryTracking = () => {
 
     useEffect(() => {
         const getTrackingList = async () => {
+            setIsLoading(true)
             const { response, err } = await foodTrackingApi.reportCalories(`${date} 00:00:00`, reportType, userId)
             if (response) {
                 console.log(response)
                 setTrackingHistory(response.consumedHistory)
+               setIsLoading(false)
             }
             if (err) {
                 console.log(err)
                 setTrackingHistory(null)
+                setIsLoading(false)
             }
         }
         getTrackingList()
@@ -98,41 +103,54 @@ const HistoryTracking = () => {
                             margin: '5px'
                         }}
                     >
-                        {trackingHistory && trackingHistory.map((item, index) => (
-                            <Grid item key={index} sx={{
-                                position: 'relative',
-                                width: '100%',
-                                height: '100px',
-                                border: '2px solid #ccc',
-                                borderRadius: '5px',
-                                marginBottom: '5px',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                textAlign: 'left',
-                                display: 'flex'
-                            }} >
-                                <Box width='90px' height='100%' position='relative' >
-                                    <img src={item.food.image} alt='ảnh' style={{
-                                        position: 'absolute',
-                                        margin: '4px 0px 0px 4px',
-                                        width: '90px',
-                                        height: '90px',
-                                        objectFit: 'cover',
-                                        top: 0,
-                                        left: 0,
-                                        padding: 0,
-                                        borderRadius: '10px',
-                                        overflow: 'hidden',
-                                        border: '1px solid #ccc'
-                                    }} />
-                                </Box>
-                                <Box width='400px' height='100%'>
-                                    <Typography fontWeight='600' marginBottom='10px'>{item.food.name}</Typography>
-                                    <Typography marginBottom='10px'>Consumed: {item.consumedGram}g</Typography>
-                                    <Typography>{item.consumedDatetime}</Typography>
-                                </Box>
-                            </Grid>
-                        ))}
+
+                        {isLoading && <CircularProgress sx={{
+                            color: 'green',
+                            marginTop: '100px',
+                            width: '100px',
+                            height: '100px'
+                        }} />}
+                        {!isLoading && (
+                            <>
+                                {trackingHistory && trackingHistory.map((item, index) => (
+                                    <Grid item key={index} sx={{
+                                        position: 'relative',
+                                        width: '100%',
+                                        height: '100px',
+                                        border: '2px solid #ccc',
+                                        borderRadius: '5px',
+                                        marginBottom: '5px',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        textAlign: 'left',
+                                        display: 'flex'
+                                    }} >
+                                        <Box width='90px' height='100%' position='relative' >
+                                            <img src={item.food.image} alt='ảnh' style={{
+                                                position: 'absolute',
+                                                margin: '4px 0px 0px 4px',
+                                                width: '90px',
+                                                height: '90px',
+                                                objectFit: 'cover',
+                                                top: 0,
+                                                left: 0,
+                                                padding: 0,
+                                                borderRadius: '10px',
+                                                overflow: 'hidden',
+                                                border: '1px solid #ccc'
+                                            }} />
+                                        </Box>
+                                        <Box width='400px' height='100%'>
+                                            <Typography fontWeight='600' marginBottom='10px'>{item.food.name}</Typography>
+                                            <Typography marginBottom='10px'>Consumed: {item.consumedGram}g</Typography>
+                                            <Typography>{item.consumedDatetime}</Typography>
+                                        </Box>
+                                    </Grid>
+                                ))}
+                                {!trackingHistory && <Typography variant='body' fontSize='18px' marginTop='100px'
+                                >No data available today</Typography>}
+                            </>
+                        )}
                     </Grid>
                 </Grid>
             </Box>
