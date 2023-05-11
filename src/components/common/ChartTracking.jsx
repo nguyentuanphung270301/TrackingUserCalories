@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import accountsApi from '../../api/modules/accounts.api';
@@ -33,6 +33,9 @@ const ChartTracking = () => {
     const username = useSelector((state) => state.user.username) || localStorage.getItem('username')
     const [userId, setUserId] = useState(null)
     const [chartData, setChartData] = useState(null)
+
+    const [isLoading, setIsLoading] = useState(true)
+
 
     const now = new Date();
     const year = now.getFullYear();
@@ -78,9 +81,11 @@ const ChartTracking = () => {
                         },
                     ],
                 })
+                setIsLoading(false)
             }
             if (err) {
                 console.log(err)
+                setIsLoading(false)
             }
         }
         getTrackingList()
@@ -120,9 +125,20 @@ const ChartTracking = () => {
             </Box>
 
             <Box sx={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {chartData ? <Chart type='line' data={chartData} /> :
-                    <Typography variant='body1' fontSize='18px'>No data available today</Typography>
-                }
+                {isLoading && <CircularProgress sx={{
+                    color: 'green',
+                    margin: 'auto',
+                    width: '100px',
+                    height: '100px'
+                }} />}
+                {!isLoading && (
+                    <>
+                        {chartData ? <Chart type='line' data={chartData} /> :
+                            <Typography variant='body1' fontSize='18px'>No data available today</Typography>
+                        }
+                    </>
+                )}
+
             </Box>
         </Box>
 
